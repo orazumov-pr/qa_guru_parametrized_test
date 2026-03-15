@@ -1,11 +1,9 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -40,8 +38,12 @@ public class PracticeFormMultipleUsersTest {
         $$(".router-link").findBy(text("Practice Form")).click();
     }
 
-    @DisplayName("Проверка формы на разных значениях")
-    @ParameterizedTest
+    @AfterEach
+    void afterEach() {
+        Selenide.closeWebDriver();
+    }
+
+    @ParameterizedTest(name = "Проверка формы на разных значениях")
     @CsvSource({
             "Oleg, Razumov, razumov@mail.ru, Male, 9997776655, 14 January 1977, English, Music, Ulitsa Lenina 5, Uttar Pradesh, Merrut",
             "Anna, Ivanova, anna@mail.ru, Female, 8885552233, 25 December 1990, Economics, Sports, Ulitsa Mira 10, NCR, Delhi",

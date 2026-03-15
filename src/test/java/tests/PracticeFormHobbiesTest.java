@@ -1,11 +1,9 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -31,9 +29,9 @@ public class PracticeFormHobbiesTest {
     void openPracticeForm() {
         open("");
         executeJavaScript("""
-        document.getElementById('fixedban')?.remove();
-        document.querySelector('footer')?.remove();
-        """);
+                document.getElementById('fixedban')?.remove();
+                document.querySelector('footer')?.remove();
+                """);
 
         SelenideElement formsElement = $(byText("Forms"));
         formsElement.shouldBe(visible, Duration.ofSeconds(10));
@@ -41,8 +39,12 @@ public class PracticeFormHobbiesTest {
         $$(".router-link").findBy(text("Practice Form")).click();
     }
 
-    @DisplayName("Проверка разных значений в поле hobby")
-    @ParameterizedTest
+    @AfterEach
+    void afterEach() {
+        Selenide.closeWebDriver();
+    }
+
+    @ParameterizedTest(name = "Проверка разных значений в поле hobby")
     @ValueSource(strings = {"Sports", "Reading", "Music"})
     void testDifferentHobbiesSelection(String hobby) {
         $("#firstName").setValue("Oleg");

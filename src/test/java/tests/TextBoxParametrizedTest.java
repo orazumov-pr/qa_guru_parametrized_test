@@ -1,9 +1,10 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,6 +28,11 @@ public class TextBoxParametrizedTest {
     @BeforeAll
     public static void setUp() {
         Configuration.browser = "chrome";
+    }
+
+    @AfterEach
+    void afterEach() {
+        Selenide.closeWebDriver();
     }
 
     // Источник данных для параметризированного теста
@@ -53,8 +59,7 @@ public class TextBoxParametrizedTest {
         );
     }
 
-    @DisplayName("Тест обычной текстовой формы")
-    @ParameterizedTest(name = "Тест с данными: {0}, {1}")
+    @ParameterizedTest(name = "Тест обычной текстовой формы")
     @MethodSource("provideUserDataForTextBox")
     public void fillTextBoxAndCheckResult(String name, String email, String currentAddress, String permanentAddress) {
 
@@ -73,7 +78,7 @@ public class TextBoxParametrizedTest {
                 text("Name:" + name),
                 text("Email:" + email),
                 text("Current Address :" + currentAddress),
-                text("Permananet Address :" + permanentAddress) // Обратите внимание на опечатку "Permananet" на странице
+                text("Permananet Address :" + permanentAddress)
         );
     }
 }
